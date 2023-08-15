@@ -1,0 +1,8 @@
+prefix=/home/xytron/xycar_ws/src/kuad_2023/test/install
+
+Name: yolov5_ros
+Description: Description of yolov5_ros
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,9 @@
+<launch>
+
+  <!-- Motor node -->
+  <include file="$(find xycar_motor)/launch/xycar_motor.launch" />
+ 
+  <!-- My node --> 
+  <node name="my_driver" pkg="test" type="rabacon_drive.py" output="screen" />
+  
+</launch>

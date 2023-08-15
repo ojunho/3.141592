@@ -1,0 +1,12 @@
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/./_setup_util.py
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/./local_setup.bash
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/./setup.bash
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/./setup.zsh
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/./setup.sh
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/./local_setup.sh
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/./env.sh
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/./cmake.lock
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/./local_setup.zsh
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake
+Symlinking /home/xytron/xycar_ws/src/kuad_2023/test/devel/lib/pkgconfig/catkin_tools_prebuild.pc

@@ -1,0 +1,1 @@
+/home/xytron/xycar_ws/src/kuad_2023/test/devel/.private/detection_msgs/share/detection_msgs/cmake/detection_msgs-msg-paths.cmake

@@ -1,0 +1,1 @@
+/home/xytron/xycar_ws/src/kuad_2023/test/devel/.private/catkin_tools_prebuild/local_setup.sh

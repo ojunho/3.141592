@@ -1,0 +1,6 @@
+devel_space: /home/xytron/xycar_ws/src/kuad_2023/test/devel
+install: false
+install_space: /home/xytron/xycar_ws/src/kuad_2023/test/install
+profile: default
+source_space: /home/xytron/xycar_ws/src/kuad_2023/test/src
+workspace: /home/xytron/xycar_ws/src/kuad_2023/test
