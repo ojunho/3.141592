@@ -230,7 +230,7 @@ def start():
                 MODE = 1
             elif 3 <= ar_id <= 8:
                 MODE = 2
-            elif ar_id == 9:
+            elif ar_id == 9 and 0 < DZ < 1:
                 MODE = 3
             else:
                 ar_id = None
@@ -238,9 +238,10 @@ def start():
 
         # replace 0angle to -5
         # print(f"MODE: {MODE}")
-        print(f"DX: {DX}  DZ: {DZ}")
+        # print(f"DX: {DX}  DZ: {DZ}")
+        print(f"DZ: {DZ}")
+        print(f"MODE: {MODE}")
         # angle = int((320 - int(x_location))*-1)
-        drive(angle, 0)
         # drive(-5, 5)
         # print(f"angle: {angle}")
 
