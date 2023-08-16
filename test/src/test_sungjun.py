@@ -29,6 +29,7 @@ x_loc = 0
 flag = False
 last_ob_mode = "No"
 ob_dir = None
+ob_cal = 0
 
 CAM_FPS = 30    # 카메라 FPS - 초당 30장의 사진을 보냄
 WIDTH, HEIGHT = 640, 480    # 카메라 이미지 가로x세로 크기
@@ -130,35 +131,83 @@ def decision_Obstacles3(data):
     left_ob = []
     right_ob = []
     for i in data.circles:
-        if i.center.x > -0.3 and i.center.x < 0.0:
+        if i.center.x > -0.6 and i.center.x < -0.1:
             if i.center.y < 0 and i.center.y > -0.4:
                 left_ob.append(i)
             elif i.center.y > 0 and i.center.y < 0.4:
                 right_ob.append(i)
     
     if len(left_ob) > 0: #왼쪽 장애물
-        print("left")
+        # print("left")
         ob_dir = "left_ob"
         left_ob_close = left_ob[0]
         if(last_ob_mode == "left_ob"):
             mode = "left_drive"
-        elif(left_ob_close.center.y + left_ob_close.radius > 0.3):
-            mode = "left_drive"
-        else:
+        elif(left_ob_close.center.y + left_ob_close.radius < 0.2):
             mode = "right_drive"
+        else:
+            mode = "left_drive"
     elif len(right_ob) > 0: #오른쪽 장애물
-        print("right")
+        # print("right")
         ob_dir = "right_ob"
         right_ob_close = right_ob[0]
         if(last_ob_mode == "right_ob"):
             mode = "right_drive"
-        elif(right_ob_close.center.y - right_ob_close.radius < 0.3):
-            mode = "right_drive"
-        else:
+        elif(right_ob_close.center.y - right_ob_close.radius > -0.2):
             mode = "left_drive"
+        else:
+            mode = "right_drive"
     else:
         last_ob_mode = ob_dir
         mode = "lane_drive"
+
+    # print(f"LEFT: {len(left_ob)}\nRIGHT: {len(right_ob)}")
+    # print(last_ob_mode)
+    print(mode)
+
+def decision_Obstacles5(data):
+    global mode, last_ob_mode, ob_dir, ob_cal
+    left_ob = []
+    right_ob = []
+    for i in data.circles:
+        if i.center.x > -0.6 and i.center.x < -0.1:
+            if i.center.y < 0 and i.center.y > -0.4:
+                left_ob.append(i)
+            elif i.center.y > 0 and i.center.y < 0.4:
+                right_ob.append(i)
+    
+    if len(left_ob) > 0: #왼쪽 장애물
+        # print("left")
+        ob_dir = "left_ob"
+        left_ob_close = left_ob[0]
+        if(last_ob_mode == "left_ob"):
+            mode = "left_drive"
+        elif(left_ob_close.center.y + left_ob_close.radius < 0.2):
+            mode = "right_drive"
+        else:
+            mode = "left_drive"
+    elif len(right_ob) > 0: #오른쪽 장애물
+        # print("right")
+        ob_dir = "right_ob"
+        right_ob_close = right_ob[0]
+        angle = right_ob_close.center.y
+        if(last_ob_mode == "right_ob"):
+            mode = "right_drive"
+        elif(right_ob_close.center.y - right_ob_close.radius > -0.2):
+            mode = "left_drive"
+        else:
+            mode = "right_drive"
+    else:
+        last_ob_mode = ob_dir
+        ob_cal += 1
+
+    # print(f"LEFT: {len(left_ob)}\nRIGHT: {len(right_ob)}")
+    # print(last_ob_mode)
+    print(mode)
+
+
+#test angle
+
 
 # 실질적인 메인 함수.
 def start():
@@ -169,7 +218,7 @@ def start():
     motor = rospy.Publisher('xycar_motor', xycar_motor, queue_size=1)
     rospy.Subscriber("/usb_cam/image_raw/", Image, img_callback)
 
-    rospy.Subscriber('raw_obstacles', Obstacles, decision_Obstacles2)
+    rospy.Subscriber('raw_obstacles', Obstacles, decision_Obstacles3)
 
     print ("----- Xycar self driving -----")
     rospy.wait_for_message("/usb_cam/image_raw/", Image)
@@ -217,18 +266,27 @@ def start():
 
         if(mode == "left_drive"): 
             # print("left")
-            mid = 390
+            angle = -35
         elif(mode == "right_drive"):
             # print("right")
-            mid = 250
+            angle = 30
         else:
-            mid = 320
+            if(ob_cal >= 3):
+                angle = int((mid - int(x_location))*-1)
+            elif(last_ob_mode == "left_ob"):
+                angle = -25
+            elif(last_ob_mode == "right_ob"):
+                angle = 20
+            else:
+                angle = -5
 
-        angle = int((mid - int(x_location))*-1)
+            # mid = 320
+            angle = int((mid - int(x_location))*-1)
+
 
         # print(mode)
         
-        print(x_location)
+        # print(x_location)
         # if(mode == "left_drive"): 
         #     angle = -50
         # elif(mode == "right_drive"): 
@@ -241,7 +299,7 @@ def start():
         # print(angle)
         
         # speed = max(5, 40 - abs(angle))
-        speed = 0
+        speed = 4
         drive(angle, speed)
 
 if __name__ == '__main__':

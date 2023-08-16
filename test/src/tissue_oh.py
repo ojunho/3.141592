@@ -70,6 +70,8 @@ def decision_Obstacles(data):
                 left_ob.append(i)
             elif 0 < i.center.y < 0.3:
                 right_ob.append(i)
+
+    
     
     if len(left_ob) > 0: #왼쪽 장애물
         left_ob_close = left_ob[0]

@@ -12,6 +12,7 @@ from detection_msgs.msg import BoundingBoxes
 from ar_track_alvar_msgs.msg import _AlvarMarkers
 from tf.transformations import euler_from_quaternion
 
+import time
 
 bridge = CvBridge()
 cv_image = np.empty(shape=[0])
@@ -371,8 +372,6 @@ def boxes_callback(msg):
 
     for bounding_box in msg.bounding_boxes:
         if bounding_box.Class == carLabel:
-            # count list =[]
-            # if count_list의 값이 50이상이면 ㄱㄱ
             if bounding_box.probability >= 0.9:
                 xSum = bounding_box.xmin + bounding_box.xmax
                 carCnt += 1              
@@ -397,12 +396,8 @@ def boxes_callback(msg):
 #=============================================
 def start():
 
-    # 위에서 선언한 변수를 start() 안에서 사용하고자 함
     global motor, cv_image, initialized, flag, last_x_location, x_loc
 
-    ####
-    # rospy.init_node('cam_tune', anonymous=True)
-    # rospy.init_node('xycar_motor', xycar_motor)
     rospy.init_node('my_driver')
 
     motor = rospy.Publisher('xycar_motor', xycar_motor, queue_size=1)
@@ -431,64 +426,6 @@ def start():
         warp_img = warper.warp(close)
         ret, thres_img = cv2.threshold(warp_img, 150, 255, cv2.THRESH_BINARY)
 
-        # finding hsv value via bar
-
-        
-        # img2 = cv_image
-        # img2 = warper.warp(img2)
-
-        # img2 = cv2.cvtColor(img2, cv2.COLOR_RGB2HSV)
-        # if initialized == False:
-        #     cv2.namedWindow("Simulator_Image", cv2.WINDOW_NORMAL)
-        #     cv2.createTrackbar('low_H', 'Simulator_Image', 50, 255, nothing)
-        #     cv2.createTrackbar('low_S', 'Simulator_Image', 50, 255, nothing)
-        #     cv2.createTrackbar('low_V', 'Simulator_Image', 50, 255, nothing)
-        #     cv2.createTrackbar('high_H', 'Simulator_Image', 255, 255, nothing)
-        #     cv2.createTrackbar('high_S', 'Simulator_Image', 255, 255, nothing)
-        #     cv2.createTrackbar('high_V', 'Simulator_Image', 255, 255, nothing)
-        #     initialized = True
-        # img2 = cv2.GaussianBlur(img2, (1, 1), 0)
-
-        # low_H = cv2.getTrackbarPos('low_H', 'Simulator_Image')
-        # low_S = cv2.getTrackbarPos('low_s', 'Simulator_Image')
-        # low_V = cv2.getTrackbarPos('low_V', 'Simulator_Image')
-        # high_H = cv2.getTrackbarPos('high_H', 'Simulator_Image')
-        # high_S = cv2.getTrackbarPos('high_S', 'Simulator_Image')
-        # high_V = cv2.getTrackbarPos('high_V', 'Simulator_Image')
-        # warped_img = cv2.cvtColor(warped_img, cv2.COLOR_RGB2LAB)
-        # warped_img = cv2.GaussianBlur(warped_img,(5,5), cv2.BORDER_DEFAULT)
-        # lower_lane = np.array([low_H, low_S, low_V])
-        # upper_lane = np.array([high_H, high_S, high_V])
-        # lower_lane = np.array([130, 0, 50])
-        # upper_lane = np.array([180, 255, 200])
-        # lane_image = cv2.inRange(warped_img, lower_lane, upper_lane)
-        # lane_imagee = 
-        # cv2.imshow("Lane Image", lane_image)
-        # cv2.waitKey(1)
-
-
-	    # BGR 색상 공간에서 RGB 색상 공간으로 변환 - 이미지의 색상 채널 순서를 조정하는 역할
-        # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-	    # 차선의 하한과 상한을 나타내는 RGB값 - 범위에 속하는 픽셀만을 선택 & 나머지는 제거
-	    # lower_lane = [minimum_blue, minimum_green, minimum_red]
-	    # upper_lane = [maximum_blue, maximum_green, maximum_red]
-        # lower_lane = np.array([low_H, low_S, low_V])
-        # upper_lane = np.array([high_H, high_S, high_V])
-
-	    # img에서 lower_lane과 upper_lane 범위에 속하는 픽셀을 선택 - 선택된 픽셀은 흰색으로 표시 / 나머지 픽셀은 검은색으로 표시
-        # img = cv2.inRange(img, lower_lane, upper_lane)
-
-        # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        # blur_gray = cv2.GaussianBlur(gray,(5, 5), 0)
-        # edge_img = cv2.Canny(np.uint8(blur_gray), 60, 70)
-
-        # cv2.imshow("ProcessedImage", edge_img)       # cv2.waitKey(1)
-
-        # warped_img = warper.warp(img)
-        # cv2.imshow("original", cv_image)
-        # cv2.imshow("BEView", warped_img)
-
         cv2.imshow("thres_img", thres_img)
         cv2.waitKey(1)
 
@@ -501,37 +438,20 @@ def start():
         
         else:
             last_x_location = x_location
-            # if flag == True and x_location > 279:
-            #     x_location += 13
             flag = False
         
-        # print(x_location)
         cv2.imshow("window_view", slide_img)
-        # cv2.setMouseCallback("BEView", mouse_callback)
         cv2.waitKey(1)
 
-        # print(x_location)
         angle = int((320 - int(x_location))*-1)
-        # speed = max(5, 40 - abs(angle))
         
         angle = 0
-        speed =0
+        speed = 0
         drive(angle, speed)
 
         LANE = 1
         STOP_LINE = 2
         drive_mode = LANE
-
-        # while drive_mode == LANE :
-        #     if check_stopline() == "stopline" :
-        #         drive_mode = STOP_LINE
-        #     else :
-        #         drive(angle, speed)
-        # while drive_mode == STOP_LINE :
-        #     drive(0,0)
-        #     print("STOPLINE FOUND")
-        #     if check_stopline() != "stopline" :
-        #         drive_mode = LANE
 
 #=============================================
 # 메인 함수
