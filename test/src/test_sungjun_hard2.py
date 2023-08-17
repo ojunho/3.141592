@@ -32,6 +32,7 @@ ob_dir = None
 right_ob_close = None
 left_ob_close = None
 ob_count = 0
+direction = 0
 
 CAM_FPS = 30    # 카메라 FPS - 초당 30장의 사진을 보냄
 WIDTH, HEIGHT = 640, 480    # 카메라 이미지 가로x세로 크기
@@ -107,6 +108,11 @@ def start():
     print ("----- Xycar self driving -----")
     rospy.wait_for_message("/usb_cam/image_raw/", Image)
 
+    obstacle_cnt = 0
+    direction = 0
+
+    PART = 2
+
     while not rospy.is_shutdown():
         img = cv_image.copy()
         mid = 320
@@ -144,35 +150,124 @@ def start():
             #     x_location += 13
             flag = False
         
-        car_speed = 0
+        car_speed = 4
         cv2.imshow("window_view", slide_img)
         cv2.waitKey(1)
 
-        if(mode == "right_ob"): 
-            sec_L = time.time()
-            while(time.time() - sec_L <= 0.5):
-                drive(-30, car_speed)
-            sec_L = time.time()
-            while(time.time() - sec_L <= 0.5):
-                drive(-5, car_speed)
-            sec_L = time.time()
-            while(time.time() - sec_L <= 0.4):
-                drive(20, car_speed)
-            continue
-        elif(mode == "left_ob"):
-            sec_L = time.time()
-            while(time.time() - sec_L <= 0.5):
-                drive(20, car_speed)
-            sec_L = time.time()
-            while(time.time() - sec_L <= 0.5):
-                drive(-5, car_speed)
-            sec_L = time.time()
-            while(time.time() - sec_L <= 0.4):
-                drive(-30, car_speed)
-            continue
-        else:
-            mid = 320
-            angle = int((mid - int(x_location))*-1)
+        if obstacle_cnt == 3:
+            PART = 3
+
+        if(obstacle_cnt == 0 and mode == "left_ob"):
+            direction = 1
+        elif(obstacle_cnt == 0 and mode == "right_ob"):
+            direction = 2
+
+        if(PART == 2):
+            # LEFT - RIGHT - LEFT
+            if(direction == 1):
+                print("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+                if mode == "left_ob":
+                    obstacle_cnt += 1
+                    if obstacle_cnt == 1:
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(20, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(-5, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.4):
+                            drive(-30, car_speed)
+
+                    elif obstacle_cnt >= 3:
+                        st = 0
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(20, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(-5, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.4):
+                            drive(-30, car_speed)
+                    continue
+
+                elif mode == "right_ob":
+                    obstacle_cnt += 1
+                    if obstacle_cnt == 2:
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(-30, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(-5, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.4):
+                            drive(20, car_speed)
+                    continue
+            #RIGHT - LEFT - RIGHT
+            elif direction == 2:
+                print("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
+                if mode == "right_ob":
+                    obstacle_cnt += 1
+                    if obstacle_cnt == 1:
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(-30, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(-5, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.4):
+                            drive(20, car_speed)
+
+                    elif obstacle_cnt >= 3:
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(-30, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(-5, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.4):
+                            drive(20, car_speed)
+                    continue
+
+                elif mode == "left_ob":
+                    obstacle_cnt += 1
+                    if obstacle_cnt == 2:
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(20, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.5):
+                            drive(-5, car_speed)
+                        sec_L = time.time()
+                        while(time.time() - sec_L <= 0.4):
+                            drive(-30, car_speed)
+                    continue
+        # if(mode == "right_ob"): 
+        #     sec_L = time.time()
+        #     while(time.time() - sec_L <= 0.5):
+        #         drive(-30, car_speed)
+        #     sec_L = time.time()
+        #     while(time.time() - sec_L <= 0.5):
+        #         drive(-5, car_speed)
+        #     sec_L = time.time()
+        #     while(time.time() - sec_L <= 0.4):
+        #         drive(20, car_speed)
+        #     continue
+        # elif(mode == "left_ob"):
+        #     sec_L = time.time()
+        #     while(time.time() - sec_L <= 0.5):
+        #         drive(20, car_speed)
+        #     sec_L = time.time()
+        #     while(time.time() - sec_L <= 0.5):
+        #         drive(-5, car_speed)
+        #     sec_L = time.time()
+        #     while(time.time() - sec_L <= 0.4):
+        #         drive(-30, car_speed)
+        #     continue
 
         # print(mode)
         
@@ -187,9 +282,9 @@ def start():
 
 
         # print(angle)
-        
+        angle = int((mid - int(x_location))*-1)
         # speed = max(5, 40 - abs(angle))
-        speed = 0
+        speed = 4
         drive(angle, speed)
 
 if __name__ == '__main__':

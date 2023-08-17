@@ -106,6 +106,7 @@ def start():
 
     PART = 2
     obstacle_cnt = 0
+    direction = 0
     while not rospy.is_shutdown():
         img = cv_image.copy()
         mid = 320
@@ -147,6 +148,9 @@ def start():
         cv2.imshow("window_view", slide_img)
         cv2.waitKey(1)
         car_speed = 0
+        if obstacle_cnt == 3:
+            PART = 3
+
         if obstacle_cnt == 0 and mode == "left_ob":
             direction = 1
         elif obstacle_cnt == 0 and mode == "right_ob":
@@ -161,25 +165,25 @@ def start():
                     if obstacle_cnt == 1:
                         for theta in range(270, 515, 14):
                             st = 0.6 * np.sin(theta * np.pi / 180)
-                            drive(car_speed, 4)
+                            drive(int(st), 4)
                             time.sleep(0.1)
 
                     elif obstacle_cnt >= 3:
                         st = 0
                         for theta in range(315, 445, 10):
                             st = 0.4 * np.sin(theta * np.pi / 180)
-                            drive(car_speed, 4)
+                            drive(int(st), 4)
                             time.sleep(0.1)
                         for i in range(3000):
-                            drive(car_speed, 4)
-                        continue
+                            drive(int(st), 4)
+                    continue
 
                 elif mode == "right_ob":
                     obstacle_cnt += 1
                     if obstacle_cnt == 2:
                         for theta in range(270, 530, 15):
                             st = 0.8 * np.sin(theta * np.pi / 180)
-                            drive(-car_speed, 4)
+                            drive(-int(st), 4)
                             time.sleep(0.1)
                     continue
 
@@ -191,20 +195,20 @@ def start():
                     if obstacle_cnt == 2:
                         for theta in range(280, 520, 12):
                             st = 0.51 * np.sin(theta * np.pi / 180)
-                            drive(car_speed, 4)
+                            drive(int(st), 4)
                             time.sleep(0.1)
-                        continue
+                    continue
                 elif mode == "right_ob":
                     obstacle_cnt += 1
                     if obstacle_cnt == 1:
                         for theta in range(280, 470, 10):
                             st = 0.32 * np.sin(theta * np.pi / 180)
-                            drive(-car_speed, 4)
+                            drive(-int(st), 4)
                             time.sleep(0.1)
                     if obstacle_cnt == 3:
                         for theta in range(270, 510, 9):
                             st = 0.55 * np.sin(theta * np.pi / 180)
-                            drive(-car_speed, 4)
+                            drive(-int(st), 4)
                             time.sleep(0.1)
                     continue
 
@@ -222,7 +226,7 @@ def start():
         #     mid = 320
         #     angle = int((mid - int(x_location))*-1)        
         # speed = max(5, 40 - abs(angle))
-        speed = 0
+        speed = 4
         drive(angle, speed)
 
 if __name__ == '__main__':

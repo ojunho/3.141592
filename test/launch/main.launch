@@ -1,0 +1,14 @@
+<launch>
+  <include file="$(find usb_cam)/launch/xycar_cam.launch" />
+  <include file="$(find xycar_ultrasonic)/launch/xycar_ultrasonic_viewer.launch" />
+  <include file="$(find xycar_motor)/launch/xycar_motor.launch" />
+  <include file="$(find ar_track_alvar)/launch/pr2_indiv_no_kinect.launch" />
+  <include file="$(find yolov5_ros)/launch/yolov5.launch" />
+
+
+  <!-- My node --> 
+  <node name="main" pkg="test" type="main.py" output="screen"/>
+
+
+  
+</launch>

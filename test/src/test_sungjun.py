@@ -198,8 +198,9 @@ def decision_Obstacles5(data):
         else:
             mode = "right_drive"
     else:
+        if(ob_dir != last_ob_mode):
+            ob_cal += 1
         last_ob_mode = ob_dir
-        ob_cal += 1
 
     # print(f"LEFT: {len(left_ob)}\nRIGHT: {len(right_ob)}")
     # print(last_ob_mode)
