@@ -4,6 +4,10 @@
   <include file="$(find xycar_motor)/launch/xycar_motor.launch" />
   <include file="$(find ar_track_alvar)/launch/pr2_indiv_no_kinect.launch" />
   <include file="$(find yolov5_ros)/launch/yolov5.launch" />
+  <!-- Lidar node -->
+  <include file="$(find xycar_lidar)/launch/xycar_lidar.launch" />
+  <include file="$(find obstacle_detector)/launch/my_obstacle.launch" />
+  <include file="$(find obstacle_detector)/launch/detect_obstacle.launch" />
 
 
   <!-- My node --> 

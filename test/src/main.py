@@ -46,7 +46,7 @@ l = 30
 l2 = 5
 angle_cal = 0.017
 angle_cal2 = 0.05
-ar_id = None
+ar_id = 255
 
 # for bounding boxes
 carLabel = "sonata"
@@ -68,7 +68,7 @@ class Rabacon_drive:
     def Rabacon(self, data):
         left_rabacon = []
         right_rabacon = []
-        print("go")
+        # print("go")
         for i in data.circles:
             if i.center.x > -1.5 and i.center.x < -0.05:
                 if i.center.y > 0 and i.center.y < 0.7:
@@ -83,7 +83,7 @@ class Rabacon_drive:
             self.angle = avg_y_rabacon * 150 # Store angle as a class attribute
             self.rabacon = True
         else:
-            print("no_rabacon")
+            # print("no_rabacon")
             self.rabacon = False
 
 
@@ -113,10 +113,10 @@ def boxes_callback(msg):
         elif xSum > 640:
             dir = "right"
     
-    print(carCnt)
+    # print(carCnt)
     
-    if dir != None:
-        print(dir)
+    # if dir != None:
+        # print(dir)
 
 def ultra_callback(msg):
     global ultra
@@ -181,7 +181,7 @@ def esc_p_parking():
     while time.time() - sec <= 1.5:
         drive(30, 4)
 
-    ar_id = None
+    ar_id = 255
     
 
 # 장애물 피하기
@@ -197,10 +197,10 @@ def decision_Obstacles(data):
                 right_ob.append(i)
     
     if len(left_ob) > 0: #왼쪽 장애물
-        print("left")
+        # print("left")
         mode = "left_ob"
     elif len(right_ob) > 0: #오른쪽 장애물
-        print("right")
+        # print("right")
         mode = "right_ob"
     else:
         mode = "lane_drive"
@@ -320,6 +320,10 @@ def start():
 
     print ("----- Xycar self driving -----")
     rospy.wait_for_message("/usb_cam/image_raw/", Image)
+    rospy.wait_for_message("ar_pose_marker", AlvarMarkers)
+    rospy.wait_for_message("xycar_ultrasonic", Int32MultiArray)
+    rospy.wait_for_message("/yolov5/detections", BoundingBoxes)
+    rospy.wait_for_message("raw_obstacles2", Obstacles)
 
     while not rospy.is_shutdown():
         img = cv_image.copy()
@@ -536,7 +540,7 @@ def start():
                     while time.time() - sec <= 1:
                         drive(-50, 4)
                     ar_flag = 3
-                    ar_id = None
+                    ar_id = 255
                     sec_ar = time.time()
                 #아니면 ar_우회주행
                 else :
@@ -777,7 +781,8 @@ def start():
         # #모르겠으면 프린트 찍어보기
         print(f"MODE: {MODE}")
         # print(f"pPark: {p_parking_flag}")
-        # print(f"ar_id: {ar_id}")
+        print(f"ar_flag: {ar_flag}")
+        print(f"ar_id: {ar_id}")
 
         # print(f"DX: {DX}")
         # print(f"DZ: {DZ}")
