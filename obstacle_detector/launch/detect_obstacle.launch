@@ -1,5 +1,7 @@
 <!-- Reusable launch file for obstacle detection -->
 <launch>
+  <!-- Lidar node -->
+  <include file="$(find xycar_lidar)/launch/xycar_lidar.launch" />
   
   <node name="obstacle_extractor2" pkg="obstacle_detector" type="obstacle_extractor_node2">
     <param name="active"               value="true"/>
@@ -18,7 +20,7 @@
     <param name="max_split_distance"   value="0.1"/>
     <param name="max_merge_separation" value="0.2"/>
     <param name="max_merge_spread"     value="0.2"/>
-    <param name="max_circle_radius"    value="0.4"/>
+    <param name="max_circle_radius"    value="0.35"/>
     <param name="radius_enlargement"   value="0.1"/>
 
     <param name="frame_id"             value="laser_frame"/>

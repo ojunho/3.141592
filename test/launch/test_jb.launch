@@ -7,7 +7,7 @@
 
 
   <!-- My node --> 
-  <node name="test" pkg="test" type="test_jb.py" output="screen"/>
+  <node name="main" pkg="test" type="test_jb.py" output="screen"/>
 
 
   

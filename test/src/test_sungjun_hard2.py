@@ -171,25 +171,25 @@ def start():
                     if obstacle_cnt == 1:
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
-                            drive(20, car_speed)
+                            drive(30, car_speed)
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
                             drive(-5, car_speed)
                         sec_L = time.time()
-                        while(time.time() - sec_L <= 0.4):
-                            drive(-30, car_speed)
+                        while(time.time() - sec_L <= 0.6):
+                            drive(-40, car_speed)
 
                     elif obstacle_cnt >= 3:
                         st = 0
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
-                            drive(20, car_speed)
+                            drive(30, car_speed)
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
                             drive(-5, car_speed)
                         sec_L = time.time()
-                        while(time.time() - sec_L <= 0.4):
-                            drive(-30, car_speed)
+                        while(time.time() - sec_L <= 0.6):
+                            drive(-40, car_speed)
                     continue
 
                 elif mode == "right_ob":
@@ -197,13 +197,13 @@ def start():
                     if obstacle_cnt == 2:
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
-                            drive(-30, car_speed)
+                            drive(-40, car_speed)
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
                             drive(-5, car_speed)
                         sec_L = time.time()
-                        while(time.time() - sec_L <= 0.4):
-                            drive(20, car_speed)
+                        while(time.time() - sec_L <= 0.6):
+                            drive(30, car_speed)
                     continue
             #RIGHT - LEFT - RIGHT
             elif direction == 2:
@@ -213,24 +213,24 @@ def start():
                     if obstacle_cnt == 1:
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
-                            drive(-30, car_speed)
+                            drive(-40, car_speed)
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
                             drive(-5, car_speed)
                         sec_L = time.time()
-                        while(time.time() - sec_L <= 0.4):
-                            drive(20, car_speed)
+                        while(time.time() - sec_L <= 0.6):
+                            drive(30, car_speed)
 
                     elif obstacle_cnt >= 3:
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
-                            drive(-30, car_speed)
+                            drive(-40, car_speed)
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
                             drive(-5, car_speed)
                         sec_L = time.time()
-                        while(time.time() - sec_L <= 0.4):
-                            drive(20, car_speed)
+                        while(time.time() - sec_L <= 0.6):
+                            drive(30, car_speed)
                     continue
 
                 elif mode == "left_ob":
@@ -238,13 +238,13 @@ def start():
                     if obstacle_cnt == 2:
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
-                            drive(20, car_speed)
+                            drive(30, car_speed)
                         sec_L = time.time()
                         while(time.time() - sec_L <= 0.5):
                             drive(-5, car_speed)
                         sec_L = time.time()
-                        while(time.time() - sec_L <= 0.4):
-                            drive(-30, car_speed)
+                        while(time.time() - sec_L <= 0.6):
+                            drive(-40, car_speed)
                     continue
         # if(mode == "right_ob"): 
         #     sec_L = time.time()

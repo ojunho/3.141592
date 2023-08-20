@@ -4,6 +4,7 @@
 import cv2
 import rospy
 import numpy as np
+import time
 
 from xycar_msgs.msg import xycar_motor
 from sensor_msgs.msg import Image
@@ -38,6 +39,39 @@ def mouse_callback(event, x, y, flags, param):
 
 def nothing(x):
     pass
+
+# def check_stopline(image):
+#     area = image[240:380, 185:380]
+#     stopline_count = cv2.countNonZero(area)
+#     # print(stopline_count)
+#     if stopline_count > 1900:
+#         return "StopLine"
+#     else:
+#         return "no"
+
+# def check_stopline(image):
+
+#     img = image.copy()
+
+#     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+#     upper_white = np.array([255, 255, 255])
+#     lower_white = np.array([0, 0, 180])
+#     stop_line_img = cv2.inRange(hsv, lower_white, upper_white)
+
+#     cv2.imshow("HSV image for stopline detection", stop_line_img)
+#     cv2.waitKey(1)
+
+#     area = stop_line_img[380:420, 200:440] # Total 4800 points
+#     stopline_count = cv2.countNonZero(area)
+#     # print("Stop Line Count = " + str(stopline_count))
+#     print(stopline_count)
+
+#     if stopline_count > 1000:
+#         # print("Stop Line Count = " + str(stopline_count))
+#         return "Stopline"
+
+#     return False
 
 #=============================================
 # 모터 토픽을 발행하는 함수
@@ -101,11 +135,11 @@ def start():
         cv2.waitKey(1)
 
         angle = int((320 - int(x_location))*-1.0)
-        if -10 < abs(angle) < 0 :
-            speed = 20
-        else : 
-            speed = max(10, 20 - abs(angle))
-        drive(angle, int(speed))
+        # if -10 < abs(angle) < 0 :
+        #     speed = 20
+        # else : 
+        #     speed = max(10, 20 - abs(angle))
+        drive(angle, 50)
 
 if __name__ == '__main__':
     start()

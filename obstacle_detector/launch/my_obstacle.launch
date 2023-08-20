@@ -1,5 +1,7 @@
 <!-- Reusable launch file for obstacle detection -->
 <launch>
+  <!-- Lidar node -->
+  <!--include file="$(find xycar_lidar)/launch/xycar_lidar.launch" /-->
   
   <node name="obstacle_extractor" pkg="obstacle_detector" type="obstacle_extractor_node">
     <param name="active"               value="true"/>

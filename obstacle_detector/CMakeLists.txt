@@ -83,7 +83,7 @@ add_library(${PROJECT_NAME}_gui
   src/displays/obstacles_display.cpp include/${PROJECT_NAME}/displays/obstacles_display.h
   src/displays/circle_visual.cpp include/${PROJECT_NAME}/displays/circle_visual.h
   src/displays/segment_visual.cpp include/${PROJECT_NAME}/displays/segment_visual.h
-  #
+  
   src/panels/scans_merger_panel.cpp include/${PROJECT_NAME}/panels/scans_merger_panel.h
   src/panels/obstacle_extractor_panel.cpp include/${PROJECT_NAME}/panels/obstacle_extractor_panel.h
   src/panels/obstacle_tracker_panel.cpp include/${PROJECT_NAME}/panels/obstacle_tracker_panel.h
@@ -102,7 +102,7 @@ install(TARGETS scans_merger obstacle_extractor obstacle_tracker obstacle_publis
 #
 # Install nodes
 #
-install(TARGETS scans_merger_node obstacle_extractor_node obstacle_tracker_node obstacle_publisher_node
+install(TARGETS scans_merger_node obstacle_extractor_node obstacle_tracker_node obstacle_publisher_node 
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 #
